@@ -5,12 +5,11 @@ import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { Alert, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { auth } from '../../firebaseConfig';
-import { Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function Profile() {
     const router = useRouter();
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [loading] = useState(true);
     const [exp, setExp] = useState(0);
 
     // useEffect untuk memantau perubahan status autentikasi
@@ -31,7 +30,7 @@ export default function Profile() {
 
                     setExp(exp);
                 } else {
-                    console.error("User document does not exist.");
+                    Alert.alert("Error", "User document does not exist. Please check your account.");
                 }
             } catch (error) {
                 console.error("Error fetching user exp:", error);
@@ -40,7 +39,6 @@ export default function Profile() {
 
         fetchUserExp();
     }, [router]);
-    console.log(exp);
 
     const handleLogout = async () => {
         try {

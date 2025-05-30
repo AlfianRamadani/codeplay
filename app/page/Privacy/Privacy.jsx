@@ -74,17 +74,10 @@ export default function Privacy() {
     // Fungsi handle submit
     const handleLogin = () => {
         if (validateForm()) {
-            console.log('Login berhasil!');
-            console.log('Name:', name);
-            console.log('Username:', username);
-            console.log('Email:', email);
-            console.log('Password:', password);
-            console.log('Umur:', age);
-            console.log('Sekolah:', school);
+        
 
             Alert.alert('Berhasil', 'Registrasi berhasil!');
         } else {
-            console.log('Validasi gagal');
         }
     };
 

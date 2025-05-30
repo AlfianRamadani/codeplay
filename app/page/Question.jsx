@@ -123,8 +123,6 @@ Ketentuan:
 
 
             const jsonOutput = extractValidResponse(responseContent);
-            console.log(jsonOutput)
-            console.log("Materi JSON yang diterima:", jsonOutput);
             setMaterial(JSON.parse(jsonOutput));
         } catch (e) {
             console.error("Error fetching material from AI:", e);

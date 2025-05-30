@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -6,13 +7,11 @@ import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { colors } from '../utils/Constant';
 import { loadMaterialsFromStorage } from '../utils/Material';
 const Learn = () => {
-
     const router = useRouter();
     const [showDropdown, setShowDropdown] = useState(false);
     const [selectedMaterial, setSelectedMaterial] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const [materials, setMaterials] = useState([]);
-    console.log(materials)
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);
     };
@@ -178,7 +177,7 @@ export default Learn;
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 60,   
+        marginTop: 60,
         paddingHorizontal: 20,
     },
     header: {
