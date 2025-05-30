@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "823368169838",
+    "project_id": "codeplay-b2c28",
+    "storage_bucket": "codeplay-b2c28.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:823368169838:android:4b454a968f73df2e73297f",
+        "android_client_info": {
+          "package_name": "com.hacktowin.codeplay"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOmS2k78IRbv5tfM3fxc33VIB4Iyu2Eys"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
