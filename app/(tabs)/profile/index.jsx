@@ -6,9 +6,6 @@ export default function Profile() {
     return (
         <ScrollView>
             <Image source={require('@/assets/images/profile-tab-background.png')} style={{ width: 400, height: 460, position: 'absolute' }} />
-
-            {/* Header */}
-
             <View style={styles.container}>
 
                 <View style={styles.header}>
