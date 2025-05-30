@@ -78,7 +78,7 @@ const Start = () => {
                         <TouchableOpacity
                             style={[styles.button, styles.loginButton]}
                             onPress={() => {
-                                router.push('/page/Question');
+                                router.push('/(tabs)/Learn');
                             }}>
                             <Text style={styles.loginButtonText}>Masuk</Text>
                             <Icon name="arrow-forward" size={18} color={colors.WHITE} />
@@ -213,9 +213,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.WHITE,
     },
     loginButton: {
-        backgroundColor: colors.TRANSPARENT_BLACK_LIGHT || '#00000020', // Contoh: sedikit transparan agar kontras dengan background PRIMARY
-        borderColor: colors.WHITE,
-        borderWidth: 1,
+        backgroundColor: colors.PRIMARY,
     },
     registerButtonText: {
         color: colors.PRIMARY,
