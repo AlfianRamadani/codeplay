@@ -155,7 +155,8 @@ Output yang Anda berikan HARUS berupa objek JSON tunggal yang valid dengan struk
                     pathname: '/page/Question',
                     params: {
                         quizPlayQuestions: JSON.stringify(parsedQuestionsData),
-                        isHaveMaterial: false, // Asumsi tidak ada materi tambahan untuk tantangan ini
+                        isHaveMaterial: false, 
+                        expDailyChallenge: challenge.poin_reward_saran, 
                     }
                 })
 
