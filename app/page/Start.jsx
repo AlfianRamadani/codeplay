@@ -78,7 +78,7 @@ const Start = () => {
                         <TouchableOpacity
                             style={[styles.button, styles.loginButton]}
                             onPress={() => {
-                                router.push('/(tabs)/Learn');
+                                router.push('/page/Question');
                             }}>
                             <Text style={styles.loginButtonText}>Masuk</Text>
                             <Icon name="arrow-forward" size={18} color={colors.WHITE} />
@@ -97,15 +97,14 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1, // Membuat container mengisi seluruh safeArea
-        // justifyContent: 'space-between', // Dihapus agar topSection dan bottomSection bisa fleksibel
         backgroundColor: colors.SOFT_WHITE,
     },
     topSection: {
         justifyContent: 'center',
         alignItems: 'center',
-        height: height * 0.45, // Sedikit dikurangi untuk memberi ruang lebih pada bottomSection
+        height: height * 0.45,
         backgroundColor: colors.SOFT_WHITE,
-        paddingTop: StatusBar.currentHeight || 0, // Menambahkan padding jika status bar transparan
+        paddingTop: StatusBar.currentHeight || 0,
     },
     logo: {
         width: width * 0.3, // Sedikit disesuaikan
