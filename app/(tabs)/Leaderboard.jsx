@@ -118,7 +118,7 @@ export default function Leaderboard() {
                 <Text style={styles.playerName}>{item.name}</Text>
             </View>
             <View style={styles.rightSection}>
-                <Text style={styles.points}>{item.points} pts.</Text>
+                <Text style={styles.points}>{item.points} exp.</Text>
             </View>
         </View>
     );
@@ -173,14 +173,14 @@ export default function Leaderboard() {
                             <Image source={require('../../assets/images/LeaderBoardSchoolRank2.png')} />
                             <View style={styles.rankText}>
                                 <Text style={styles.rankName}>SMK 2</Text>
-                                <Text style={styles.rankNumber}>Level 3</Text>
+                                <Text style={styles.rankNumber}>Level 86</Text>
                             </View>
                         </View>
                         <View>
                             <Image source={require('../../assets/images/LeaderBoardSchoolRank1.png')} />
                             <View style={styles.rankText}>
                                 <Text style={styles.rankName}>UGM</Text>
-                                <Text style={styles.rankNumber}>Level 32</Text>
+                                <Text style={styles.rankNumber}>Level 90</Text>
                             </View>
                         </View>
                         <View style={styles.rankThirdContainer}>

@@ -133,7 +133,7 @@ export default function Privacy() {
             {/* Header yang fixed */}
             <View style={styles.containerHeader}>
                 <View style={styles.header}>
-                    <Text style={styles.title}>Privacy</Text>
+                    <Text style={styles.title}>Informasi Pribadi</Text>
                 </View>
             </View>
 
