@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
     progressPercent: {
         color: '#fff',
         fontWeight: 'bold',
-        fontSize: 14,
+        fontSize: 12,
     },
     image: {
         width: 46,
