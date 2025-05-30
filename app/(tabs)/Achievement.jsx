@@ -1,5 +1,5 @@
-// Achievement.jsx
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useRef } from 'react';
+import { Animated, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { colors } from '../utils/Constant';
@@ -113,15 +113,29 @@ const achievements = [
 ];
 
 const Achievement = () => {
+    const scrollY = useRef(new Animated.Value(0)).current;
+
     return (
         <View style={styles.mainContainer}>
+            {/* Fixed Header */}
+            <View style={styles.fixedHeader}>
+                <Text style={styles.headerTitle}>Achievement</Text>
+            </View>
+
             <ScrollView
                 style={styles.container}
                 contentContainerStyle={styles.contentContainer}
                 showsVerticalScrollIndicator={false}
+                scrollEventThrottle={16}
+                onScroll={Animated.event(
+                    [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+                    { useNativeDriver: false }
+                )}
             >
-                <Text style={styles.title}>Achievement</Text>
-
+                {/* Spacer to account for fixed header */}
+                <View style={styles.headerSpacer} />
+                
+                {/* Progress Card */}
                 <View style={styles.progressCard}>
                     <AnimatedCircularProgress
                         size={80}
@@ -141,6 +155,7 @@ const Achievement = () => {
                     </View>
                 </View>
 
+                {/* Achievements List */}
                 <View style={styles.achievementsList}>
                     {achievements.map((item, index) => (
                         <View 
@@ -177,28 +192,39 @@ const Achievement = () => {
     );
 };
 
-export default Achievement;
-
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
         backgroundColor: colors.SOFT_WHITE,
-        paddingTop: 40,
+    },
+    fixedHeader: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: 120,
+        backgroundColor: 'white',
+        zIndex: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    headerTitle: {
+        fontSize: 24,
+        fontWeight: '600',
+        textAlign: 'center',
+        marginTop: 35,
+        color: colors.DARK,
     },
     container: {
         flex: 1,
+        marginTop: 130, // Height of fixed header
     },
     contentContainer: {
         paddingHorizontal: 20,
-        paddingTop: 24,
         paddingBottom: 30,
     },
-    title: {
-        fontSize: 22,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        marginBottom: 20,
-        color: colors.DARK,
+    headerSpacer: {
+        height: 10, // Small spacer below fixed header
     },
     progressCard: {
         flexDirection: 'row',
@@ -271,3 +297,5 @@ const styles = StyleSheet.create({
         marginLeft: 8,
     },
 });
+
+export default Achievement;
