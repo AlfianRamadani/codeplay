@@ -1,114 +1,95 @@
 import { Ionicons } from '@expo/vector-icons';
-import { Dimensions, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import { materials } from '../data/quizData';
 
-const lessons = [
-    {
-        title: 'Asking for name',
-        icon: { uri: 'https://cdn.pixabay.com/photo/2017/08/05/11/16/logo-2582748_1280.png' },
-        progressPercent: 20,
-    },
-    {
-        title: 'Basics of Greetings',
-        icon: { uri: 'https://cdn.pixabay.com/photo/2017/08/05/11/16/logo-2582748_1280.png' },
-        progressPercent: 40,
-    },
-    {
-        title: 'Introducing Yourself',
-        icon: { uri: 'https://cdn.pixabay.com/photo/2017/08/05/11/16/logo-2582748_1280.png' },
-        progressPercent: 60,
-    },
-    {
-        title: 'Basic Vocabulary',
-        icon: { uri: 'https://cdn.pixabay.com/photo/2017/08/05/11/16/logo-2582748_1280.png' },
-        progressPercent: 80,
-    },
-    {
-        title: 'Common Phrases',
-        icon: { uri: 'https://cdn.pixabay.com/photo/2017/08/05/11/16/logo-2582748_1280.png' },
-        progressPercent: 100,
-    },
-];
 
 const Learn = () => {
     return (
         <ScrollView style={styles.container}>
             <Text style={styles.headerText}>CodePlay</Text>
-
-            <View style={styles.chapterHeader}>
-                <View style={styles.chapterInfo}>
-                    <Text style={styles.chapterTitle}>Chapter 1</Text>
-                    <Text style={styles.chapterSubtitle}>Introduction to Spanish</Text>
-                </View>
-                <AnimatedCircularProgress
-                    size={50}
-                    width={5}
-                    fill={20}
-                    tintColor="#521C0D"
-                    backgroundColor="#eee"
-                    rotation={0}
-                    lineCap="round"
-                >
-                    {fill => <Text style={styles.progressPercent}>{`${Math.round(fill)}%`}</Text>}
-                </AnimatedCircularProgress>
-            </View>
-
-            <View style={{ height: Dimensions.get('window').height - 250, paddingVertical: 20 }}>
-                {lessons.map((lesson, index) => (
-                    <View key={index} >
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ gap: 40 }}>
+                {materials[0].chapters.map((chapter, index) => (
+                    <View key={index}>
+                        <View style={styles.chapterHeader}>
+                            <View style={styles.chapterInfo}>
+                                <Text style={styles.chapterTitle}>Chapter {chapter.id}</Text>
+                                <Text style={styles.chapterSubtitle}>{chapter.chapterName}</Text>
+                            </View>
                             <AnimatedCircularProgress
-                                size={46}
+                                size={50}
                                 width={5}
-                                // fill={Math.random() * 100}
-                                fill={lesson.progressPercent}
-                                tintColor="#F97A00"
+                                fill={20}
+                                tintColor="#521C0D"
                                 backgroundColor="#eee"
                                 rotation={0}
                                 lineCap="round"
                             >
-                                {fill =>
-                                    <Ionicons
-                                        name={fill === 100 ? "checkmark-circle" : "time-outline"}
-                                        size={24}
-                                        color="#F97A00"
-                                    />
-                                }
+                                {fill => <Text style={styles.progressPercent}>{`${Math.round(fill)}%`}</Text>}
                             </AnimatedCircularProgress>
-                            <Pressable
-                                style={({ pressed }) => [
-                                    {
-                                        flexDirection: 'row',
-                                        alignItems: 'center',
-                                        flex: 1,
-                                        backgroundColor: '#fff',
-                                        paddingVertical: 30,
-                                        paddingHorizontal: 10,
-                                        borderRadius: 8,
-                                        marginLeft: 10,
-                                        marginBottom: (pressed) ? 4 : 0,
-                                        borderBottomWidth: (pressed) ? 0 : 4,
-                                        borderBottomColor: '#ddd',
-                                        borderRightWidth: (pressed) ? 0 : 1,
-                                        borderRightColor: '#ddd',
-                                        borderLeftColor: '#ddd',
-                                        borderLeftWidth: (pressed) ? 0 : 1,
-                                    }
-                                ]}
-                            >
-                                <Text style={styles.labelText}>{lesson.title}</Text>
-                            </Pressable>
+                        </View >
+                        <View style={{ paddingVertical: 20 }}>
+                            {
+                                chapter.stages.map((stage, stageIndex) => (
+                                    <View key={stageIndex} >
+                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                            <AnimatedCircularProgress
+                                                size={46}
+                                                width={5}
+                                                // fill={Math.random() * 100}
+                                                fill={100}
+                                                tintColor="#F97A00"
+                                                backgroundColor="#eee"
+                                                rotation={0}
+                                                lineCap="round"
+                                            >
+                                                {fill =>
+                                                    <Ionicons
+                                                        name={fill === 100 ? "checkmark-circle" : "time-outline"}
+                                                        size={24}
+                                                        color="#F97A00"
+                                                    />
+                                                }
+                                            </AnimatedCircularProgress>
+                                            <Pressable
+                                                style={({ pressed }) => [
+                                                    {
+                                                        flexDirection: 'row',
+                                                        alignItems: 'center',
+                                                        flex: 1,
+                                                        backgroundColor: '#fff',
+                                                        paddingVertical: 30,
+                                                        paddingHorizontal: 10,
+                                                        borderRadius: 8,
+                                                        marginLeft: 10,
+                                                        marginBottom: (pressed) ? 4 : 0,
+                                                        borderBottomWidth: (pressed) ? 0 : 4,
+                                                        borderBottomColor: '#ddd',
+                                                        borderRightWidth: (pressed) ? 0 : 1,
+                                                        borderRightColor: '#ddd',
+                                                        borderLeftColor: '#ddd',
+                                                        borderLeftWidth: (pressed) ? 0 : 1,
+                                                    }
+                                                ]}
+                                            >
+                                                <Text style={styles.labelText}>{stage.stageName}</Text>
+                                            </Pressable>
+                                        </View>
+                                        {stageIndex < chapter.stages.length - 1 && (
+                                            <View style={{
+                                                height: 30,
+                                                width: 2,
+                                                backgroundColor: '#ddd',
+                                                marginLeft: 23,
+                                            }} />
+                                        )}
+                                    </View>
+                                ))
+                            }
                         </View>
-                        {index < lessons.length - 1 && (
-                            <View style={{
-                                height: 30,
-                                width: 2,
-                                backgroundColor: '#ddd',
-                                marginLeft: 23,
-                            }} />
-                        )}
                     </View>
-                ))}
+                ))
+                }
             </View>
         </ScrollView>
     );
@@ -118,7 +99,7 @@ export default Learn;
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: 60,
+        marginTop: 60,
         paddingHorizontal: 20,
     },
     headerText: {

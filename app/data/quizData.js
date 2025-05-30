@@ -1,6 +1,6 @@
 export const materials = [
     {
-        id: 'unit01',
+        id: '1',
         materialName: '🪄 Dasar-Dasar Ajaib Coding',
         materialDescription: 'Pelajari kekuatan sihir di balik setiap baris kode!',
         icon: 'school-outline',
@@ -238,7 +238,6 @@ export const materials = [
                     }
                 ]
             },
-            // CHAPTER 2: Sihir Perulangan
             {
                 id: 'ch1_2',
                 chapterName: '🔁 Sihir Perulangan (Loop)',
