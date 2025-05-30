@@ -1,15 +1,17 @@
 import { Ionicons } from '@expo/vector-icons';
-import { navigate } from 'expo-router/build/global-state/routing';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'; // Import signInWithEmailAndPassword
 import { useState } from 'react';
 import { Alert, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { auth } from '../../../firebaseConfig'; // Pastikan path ini benar
 
 const FormSection = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({});
     const [showPassword, setShowPassword] = useState(false);
+    const [isRegistering, setIsRegistering] = useState(false);
+    const [isLoading, setIsLoading] = useState(false); // Tambahkan state untuk loading
 
-    // Fungsi validasi email
     const validateEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
@@ -28,25 +30,74 @@ const FormSection = () => {
 
         // Validasi password
         if (!password.trim()) {
-            newErrors.password = 'Password tidak boleh kosong';
+            newErrors.password = 'Kata sandi tidak boleh kosong';
         } else if (password.length < 6) {
-            newErrors.password = 'Password minimal 6 karakter';
+            newErrors.password = 'Kata sandi minimal 6 karakter';
         }
 
         setErrors(newErrors);
+        setIsLoading(false); // Reset loading state setelah validasi
         return Object.keys(newErrors).length === 0;
     };
 
-    // Fungsi handle submit
-    const handleLogin = () => {
-        if (validateForm()) {
-            console.log('Login berhasil!');
-            console.log('Email:', email);
-            console.log('Password:', password);
-            
-            Alert.alert('Berhasil', 'Login berhasil!');
-        } else {
-            console.log('Validasi gagal');
+    // Fungsi utama untuk menangani autentikasi (Login atau Daftar)
+    const handleAuth = async () => {
+        setIsLoading(true); // Set loading state saat proses autentikasi dimulai
+        // Lakukan validasi form terlebih dahulu
+        if (!validateForm()) {
+            return; // Hentikan proses jika validasi gagal
+        }
+
+        try {
+            if (isRegistering) {
+                // Logika Pendaftaran (Sign Up)
+                await createUserWithEmailAndPassword(auth, email, password);
+                Alert.alert("Sukses", "Pendaftaran berhasil! Anda sekarang bisa login.");
+                setEmail('');
+                setPassword('');
+                setIsRegistering(false); // Kembali ke mode login setelah daftar berhasil
+                setIsLoading(false); // Reset loading state
+            } else {
+                // Logika Login (Sign In)
+                await signInWithEmailAndPassword(auth, email, password);
+                // Store user data in AsyncStorage
+                Alert.alert("Sukses", "Login berhasil!");
+                // Di sini Anda bisa menavigasi pengguna ke layar utama aplikasi setelah login berhasil
+                // Contoh: navigate('/home'); // Ganti '/home' dengan rute aplikasi utama Anda
+                setIsLoading(false); // Reset loading state
+            }
+        } catch (error) {
+            // Tangani error dari Firebase Authentication
+            let errorMessage = "Terjadi kesalahan.";
+            setIsLoading(false); // Reset loading state saat terjadi error
+            if (error.code) {
+                switch (error.code) {
+                    case 'auth/email-already-in-use':
+                        errorMessage = 'Email ini sudah digunakan.';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = 'Format email tidak valid.';
+                        break;
+                    case 'auth/weak-password':
+                        errorMessage = 'Kata sandi terlalu lemah (minimal 6 karakter).';
+                        break;
+                    case 'auth/user-not-found':
+                    case 'auth/wrong-password':
+                        errorMessage = 'Email atau kata sandi salah.';
+                        break;
+                    case 'auth/too-many-requests':
+                        errorMessage = 'Terlalu banyak percobaan login gagal. Coba lagi nanti.';
+                        break;
+                    case 'auth/invalid-credential':
+                        errorMessage = 'Kredensial tidak valid. Silakan periksa kembali email dan kata sandi Anda.';
+                        break;
+                    default:
+                        errorMessage = error.message;
+                        console.error("Firebase Auth Error:", error);
+                        break;
+                }
+            }
+            Alert.alert("Error", errorMessage);
         }
     };
 
@@ -65,38 +116,49 @@ const FormSection = () => {
         }
     };
 
+    // Fungsi untuk beralih antara mode Login dan Daftar
+    const toggleAuthMode = () => {
+        setIsRegistering(!isRegistering);
+        setEmail(''); // Bersihkan input saat beralih mode
+        setPassword(''); // Bersihkan input saat beralih mode
+        setErrors({}); // Bersihkan error saat beralih mode
+    };
+
     return (
         <View style={styles.form}>
             <Text style={styles.label}>Email</Text>
             <View style={[styles.inputContainer, errors.email && styles.inputContainerError]}>
-                <TextInput 
-                    style={styles.input} 
+                <TextInput
+                    style={styles.input}
                     placeholder='Masukan email'
                     value={email}
                     onChangeText={handleEmailChange}
                     keyboardType="email-address"
                     autoCapitalize="none"
+                    editable={!isLoading} // Disable input while loading
                 />
             </View>
             {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
 
             <Text style={styles.label}>Kata Sandi</Text>
             <View style={[styles.inputContainer, errors.password && styles.inputContainerError]}>
-                <TextInput 
-                    secureTextEntry={!showPassword} 
-                    style={styles.input} 
+                <TextInput
+                    secureTextEntry={!showPassword}
+                    style={styles.input}
                     placeholder='Password'
                     value={password}
                     onChangeText={handlePasswordChange}
+                    editable={!isLoading} // Disable input while loading
                 />
-                <Pressable 
+                <Pressable
                     style={styles.eyeIcon}
                     onPress={() => setShowPassword(!showPassword)}
+                    disabled={isLoading} // Disable button while loading
                 >
-                    <Ionicons 
-                        name={showPassword ? "eye-off" : "eye"} 
-                        size={20} 
-                        color="#666" 
+                    <Ionicons
+                        name={showPassword ? "eye-off" : "eye"}
+                        size={20}
+                        color={isLoading ? "#ccc" : "#666"}
                     />
                 </Pressable>
             </View>
@@ -106,18 +168,27 @@ const FormSection = () => {
                 style={({ pressed }) => [
                     styles.button,
                     pressed && styles.buttonPressed,
+                    isLoading && styles.buttonDisabled,
                 ]}
-                onPress={handleLogin}
+                disabled={isLoading}
+                onPress={handleAuth}
             >
-                <Text style={styles.buttonText}>Masuk</Text>
+                <Text style={styles.buttonText}>
+                    {isLoading ? 'Loading...' : (isRegistering ? 'Daftar' : 'Masuk')}
+                </Text>
             </Pressable>
 
             <View style={styles.noAccount}>
-                <Text style={styles.noAccountText}>Tidak Memiliki Akun?</Text>
+                <Text style={styles.noAccountText}>
+                    {isRegistering ? 'Sudah memiliki akun?' : 'Tidak Memiliki Akun?'}
+                </Text>
                 <Pressable
-                    onPress={() => navigate('/page/Register/Index')}
+                    onPress={toggleAuthMode}
+                    disabled={isLoading} // Disable button while loading
                 >
-                    <Text style={styles.registerText}>Daftar</Text>
+                    <Text style={[styles.registerText, isLoading && { color: '#aad7fa' }]}>
+                        {isRegistering ? 'Masuk di sini' : 'Daftar'}
+                    </Text>
                 </Pressable>
             </View>
         </View>
@@ -126,12 +197,20 @@ const FormSection = () => {
 
 const styles = StyleSheet.create({
     label: {
-        marginBottom: 15
+        marginBottom: 15,
+        fontSize: 16,
+        fontWeight: '500',
+        color: '#333',
     },
     form: {
         marginLeft: 40,
         marginRight: 40,
-        marginTop: 20
+        marginTop: 20,
+    },
+    buttonDisabled: {
+        backgroundColor: '#ccc', // Warna tombol saat loading
+        elevation: 0, // Nonaktifkan bayangan saat loading
+        shadowColor: 'transparent', // Nonaktifkan bayangan saat loading
     },
     noAccount: {
         flexDirection: 'row',
@@ -159,6 +238,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flexDirection: 'row',
         alignItems: 'center',
+        paddingHorizontal: 10, // Tambahkan padding horizontal untuk ikon mata
     },
     inputContainerError: {
         borderColor: '#ff0000',
@@ -166,7 +246,7 @@ const styles = StyleSheet.create({
     },
     input: {
         flex: 1,
-        paddingHorizontal: 20,
+        paddingHorizontal: 10, // Sesuaikan padding di sini
         fontSize: 16,
         height: '100%',
     },
@@ -196,6 +276,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
         marginTop: -10,
         marginBottom: 15,
+        marginLeft: 20, // Sesuaikan agar sejajar dengan input
     },
     eyeIcon: {
         paddingHorizontal: 15,
@@ -204,4 +285,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default FormSection
+export default FormSection;

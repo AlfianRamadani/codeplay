@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import React from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
 import {
     Dimensions,
     Image,
@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { auth } from '../../firebaseConfig';
 import { colors, startText } from '../utils/Constant';
 
 if (typeof global.setImmediate === 'undefined') {
@@ -22,6 +23,13 @@ const { width, height } = Dimensions.get('window');
 
 const Start = () => {
     const router = useRouter();
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            router.replace('/(tabs)/Learn');
+        }
+    });
+
     return (
         <SafeAreaView style={styles.safeArea}>
             <StatusBar barStyle="dark-content" backgroundColor={colors.SOFT_WHITE} />
@@ -77,7 +85,7 @@ const Start = () => {
                         <TouchableOpacity
                             style={[styles.button, styles.loginButton]}
                             onPress={() => {
-                                router.push('/(tabs)/Learn');
+                                router.push('/page/Login/Index');
                             }}>
                             <Text style={styles.loginButtonText}>Masuk</Text>
                             <Icon name="arrow-forward" size={18} color={colors.WHITE} />

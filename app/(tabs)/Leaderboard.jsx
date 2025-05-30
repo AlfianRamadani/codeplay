@@ -11,21 +11,21 @@ export default function Leaderboard() {
             rank: 4,
             name: 'Alex',
             points: 1285,
-            avatar: '@/assets/images/ALex.jpg',
+            avatar: '../../assets/images/ALex.jpg',
         },
         {
             id: 5,
             rank: 5,
             name: 'Sarah',
             points: 1156,
-            avatar: '@/assets/images/Sarah.jpg',
+            avatar: '../../assets/images/Sarah.jpg',
         },
         {
             id: 6,
             rank: 6,
             name: 'Michael',
             points: 1023,
-            avatar: '@/assets/images/sigma.jpg',
+            avatar: '../../assets/images/sigma.jpg',
         },
         {
             id: 7,
@@ -118,7 +118,7 @@ export default function Leaderboard() {
                 <Text style={styles.playerName}>{item.name}</Text>
             </View>
             <View style={styles.rightSection}>
-                <Text style={styles.points}>{item.points} pts.</Text>
+                <Text style={styles.points}>{item.points} exp.</Text>
             </View>
         </View>
     );
@@ -130,21 +130,21 @@ export default function Leaderboard() {
                     {/* Podium Section */}
                     <View style={styles.containerUmum}>
                         <View style={styles.rankTwoContainer}>
-                            <Image source={require('@/assets/images/LeaderBoard-rank-2.png')} />
+                            <Image source={require('../../assets/images/LeaderBoard-rank-2.png')} />
                             <View style={styles.rankText}>
                                 <Text style={styles.rankName}>Vatani</Text>
                                 <Text style={styles.rankNumber}>Level 3</Text>
                             </View>
                         </View>
                         <View>
-                            <Image source={require('@/assets/images/LeaderBoard-rank-1.png')} />
+                            <Image source={require('../../assets/images/LeaderBoard-rank-1.png')} />
                             <View style={styles.rankText}>
                                 <Text style={styles.rankName}>Iman</Text>
                                 <Text style={styles.rankNumber}>Level 32</Text>
                             </View>
                         </View>
                         <View style={styles.rankThirdContainer}>
-                            <Image source={require('@/assets/images/LeaderBoard-rank-3.png')} />
+                            <Image source={require('../../assets/images/LeaderBoard-rank-3.png')} />
                             <View style={styles.rankText}>
                                 <Text style={styles.rankName}>Jonathan</Text>
                                 <Text style={styles.rankNumber}>Level 84</Text>
@@ -170,21 +170,21 @@ export default function Leaderboard() {
                     {/* Podium Section */}
                     <View style={styles.containerUmum}>
                         <View style={styles.rankTwoContainer}>
-                            <Image source={require('@/assets/images/LeaderBoardSchoolRank2.png')} />
+                            <Image source={require('../../assets/images/LeaderBoardSchoolRank2.png')} />
                             <View style={styles.rankText}>
                                 <Text style={styles.rankName}>SMK 2</Text>
-                                <Text style={styles.rankNumber}>Level 3</Text>
+                                <Text style={styles.rankNumber}>Level 86</Text>
                             </View>
                         </View>
                         <View>
-                            <Image source={require('@/assets/images/LeaderBoardSchoolRank1.png')} />
+                            <Image source={require('../../assets/images/LeaderBoardSchoolRank1.png')} />
                             <View style={styles.rankText}>
                                 <Text style={styles.rankName}>UGM</Text>
-                                <Text style={styles.rankNumber}>Level 32</Text>
+                                <Text style={styles.rankNumber}>Level 90</Text>
                             </View>
                         </View>
                         <View style={styles.rankThirdContainer}>
-                            <Image source={require('@/assets/images/LeaderBoardSchoolRank3.png')} />
+                            <Image source={require('../../assets/images/LeaderBoardSchoolRank3.png')} />
                             <View style={styles.rankText}>
                                 <Text style={styles.rankName}>SMK 6</Text>
                                 <Text style={styles.rankNumber}>Level 84</Text>
@@ -210,7 +210,7 @@ export default function Leaderboard() {
     return (
         <View style={styles.container}>
             {/* Header Section - Fixed position */}
-            <View 
+            <View
                 style={[
                     styles.containerHeader,
                     {
@@ -224,7 +224,7 @@ export default function Leaderboard() {
             </View>
             {/* Header Section End */}
 
-            <ScrollView 
+            <ScrollView
                 style={styles.scrollContainer}
                 showsVerticalScrollIndicator={false}
             >
@@ -286,7 +286,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         left: 0,
         right: 0,
-        paddingTop: 50,        
+        paddingTop: 50,
         backgroundColor: '#f5f5f5',
     },
     header: {

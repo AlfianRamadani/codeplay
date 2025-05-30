@@ -1,9 +1,58 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import { signOut } from 'firebase/auth';
+import { doc, getDoc, getFirestore } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
+import { Alert, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { auth } from '../../firebaseConfig';
 import { Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function Profile() {
     const router = useRouter();
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [exp, setExp] = useState(0);
+
+    // useEffect untuk memantau perubahan status autentikasi
+    useEffect(() => {
+        setUser(auth.currentUser);
+
+        // Fetch user experience points (exp) from Firebase Firestore
+
+        const fetchUserExp = async () => {
+            try {
+                const db = getFirestore();
+                const userDoc = doc(db, 'user_data', auth.currentUser.uid); // Assuming 'users' collection and user ID as document ID
+                const userSnapshot = await getDoc(userDoc);
+
+                if (userSnapshot.exists()) {
+                    const userData = userSnapshot.data();
+                    const exp = userData.exp || 0;
+
+                    setExp(exp);
+                } else {
+                    console.error("User document does not exist.");
+                }
+            } catch (error) {
+                console.error("Error fetching user exp:", error);
+            }
+        };
+
+        fetchUserExp();
+    }, [router]);
+    console.log(exp);
+
+    const handleLogout = async () => {
+        try {
+            await signOut(auth); // Memanggil fungsi signOut dari Firebase Auth
+            Alert.alert("Logout Berhasil", "Anda telah berhasil keluar dari akun.");
+            // Setelah logout, onAuthStateChanged akan mendeteksi perubahan dan user akan menjadi null
+        } catch (error) {
+            console.error("Error saat logout:", error);
+            Alert.alert("Error Logout", "Gagal keluar dari akun. Silakan coba lagi.");
+        }
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             {/* Fixed Header */}
@@ -11,14 +60,14 @@ export default function Profile() {
                 <View style={styles.header}>
 
                     <Text style={styles.title}>My Profile</Text>
-                    
+
                 </View>
             </View>
 
             {/* Scrollable Content */}
             <ScrollView style={styles.scrollContent} contentContainerStyle={styles.scrollContainer}>
-                <Image source={require('@/assets/images/profile-tab-background.png')} style={styles.backgroundImage} />
-                
+                <Image source={require('../../assets/images/profile-tab-background.png')} style={styles.backgroundImage} />
+
                 {/* Profile Section */}
                 <View style={styles.profileContainer}>
                     <View style={styles.profileCard}>
@@ -27,6 +76,9 @@ export default function Profile() {
                                 styles.editButton,
                                 pressed && styles.pressedEdit
                             ]}
+                            onPress={() => {
+                                router.push('../page/Privacy/Privacy');
+                            }}
                         >
                             <Ionicons name="create-outline" size={24} color="#333" />
                         </Pressable>
@@ -42,8 +94,8 @@ export default function Profile() {
                             </View>
 
                             <View style={styles.profileInfo}>
-                                <Text style={styles.name}>John Doe</Text>
-                                <Text style={styles.status}>Newbie</Text>
+                                <Text style={styles.name}>{loading ? 'loading...' : user.providerData[0].displayName ?? user.providerData[0].email}</Text>
+                                <Text style={styles.status}>{loading ? 'loading...' : user.providerData[0].displayName ? user.providerData[0].email : 'Unkown User'}</Text>
                             </View>
                         </View>
                     </View>
@@ -53,23 +105,15 @@ export default function Profile() {
                 <View style={styles.containerStats}>
                     <View style={styles.statsRow}>
                         <View style={styles.statItem}>
-                            <Text style={styles.statNumber}>2+ hours</Text>
-                            <Text style={styles.statLabel}>Total Learn</Text>
+                            <Text style={styles.statNumber}>{Math.floor(exp / 100)}</Text>
+                            <Text style={styles.statLabel}>Level</Text>
                         </View>
-
                         <View style={styles.separator} />
-
                         <View style={styles.statItem}>
                             <Text style={styles.statNumber}>20</Text>
                             <Text style={styles.statLabel}>Achievements</Text>
                         </View>
-
                         <View style={styles.separator} />
-
-                        <View style={styles.statItem}>
-                            <Text style={styles.statNumber}>2</Text>
-                            <Text style={styles.statLabel}>Language</Text>
-                        </View>
                     </View>
                 </View>
 
@@ -82,7 +126,7 @@ export default function Profile() {
                             <View style={styles.SettingIconContainer}>
                                 <Ionicons name="settings-outline" size={24} color="#333" />
                             </View>
-                            <Text style={styles.SettingSectionText}>Settings</Text>
+                            <Text style={styles.SettingSectionText}>Pengaturan</Text>
                             <View style={styles.SettingArrowIcon}>
                                 <Ionicons name="caret-forward-outline" size={24} color="#333" />
                             </View>
@@ -92,7 +136,7 @@ export default function Profile() {
                             <View style={styles.AchievmentIconContainer}>
                                 <Ionicons name="trophy-outline" size={24} color="#333" />
                             </View>
-                            <Text style={styles.AchievmentSectionText}>Achievment</Text>
+                            <Text style={styles.AchievmentSectionText}>Pencapaian</Text>
                             <View style={styles.AchievmentArrowIcon}>
                                 <Text style={styles.AchievmentArrowText}>2 New</Text>
                                 <Ionicons name="caret-forward-outline" size={24} color="#333" />
@@ -103,9 +147,8 @@ export default function Profile() {
                             <View style={styles.PrivacyIconContainer}>
                                 <Ionicons name="lock-closed-outline" size={24} color="#333" />
                             </View>
-                            <Text style={styles.PrivacySectionText}>Privacy</Text>
+                            <Text style={styles.PrivacySectionText}>Informasi Pribadi</Text>
                             <View style={styles.PrivacyArrowIcon}>
-                                <Text style={styles.PrivacyArrowText}>Action Needed</Text>
                                 <Ionicons name="caret-forward-outline" size={24} color="#333" />
                             </View>
                         </View>
@@ -115,16 +158,12 @@ export default function Profile() {
                 {/* MyAccount Section */}
                 <View style={styles.parentMyAccount}>
                     <View style={styles.containerMyAccount}>
-                        <Text style={styles.myAccountText}>My Account</Text>
-                        <Text style={styles.myAccountSwitchText}>Switch to Another Account</Text>
                         <Pressable
                             style={({ pressed }) => [
                                 styles.logoutButton,
                                 pressed && styles.pressed
                             ]}
-                            onPress={() => {
-                                router.push('../page/Start');
-                            }}
+                            onPress={() => handleLogout()}
                         >
                             <Text style={styles.myAccountLogOutText}>Logout Account</Text>
                         </Pressable>
@@ -387,7 +426,7 @@ const styles = StyleSheet.create({
         fontWeight: '500'
     },
     myAccountLogOutText: {
-        marginBottom: 20,
+
         color: '#FB6D64',
         fontWeight: '500'
     },

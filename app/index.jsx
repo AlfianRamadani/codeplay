@@ -1,9 +1,13 @@
-import * as React from 'react';
+import { useEffect } from 'react';
 import { SafeAreaView } from 'react-native';
 import Start from './page/Start';
+import { initializeMaterialsIfNeeded } from './utils/Material';
+export const Index = () => {
+  useEffect(() => {
+    initializeMaterialsIfNeeded();
+  }, [])
 
-export const index = () => {
   return <SafeAreaView><Start /></SafeAreaView>;
 };
 
-export default index;
+export default Index;
