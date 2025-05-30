@@ -50,6 +50,19 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="Leaderboard" 
+        options={{
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarItem
+              iconName={focused ? "stats-chart" : "stats-chart-outline"} 
+              color={color}
+              focused={focused}
+              label="Leaderboard" 
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="Achievement"
         options={{
           tabBarIcon: ({ color, focused }) => (
