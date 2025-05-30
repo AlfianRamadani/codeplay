@@ -1,8 +1,9 @@
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function Profile() {
-
+    const router = useRouter();
     return (
         <ScrollView>
             <Image source={require('@/assets/images/profile-tab-background.png')} style={{ width: 400, height: 460, position: 'absolute' }} />
@@ -151,7 +152,17 @@ export default function Profile() {
                 <View style={styles.containerMyAccount}>
                     <Text style={styles.myAccountText}>My Account</Text>
                     <Text style={styles.myAccountSwitchText}>Switch to Another Account</Text>
-                    <Text style={styles.myAccountLogOutText}>Logout Account</Text>
+                    <Pressable
+                        style={({ pressed }) => [
+                            styles.logoutButton,
+                            pressed && styles.pressed
+                        ]}
+                        onPress={() => {
+                            router.push('../page/Start');
+                        }}
+                    >
+                        <Text style={styles.myAccountLogOutText}>Logout Account</Text>
+                    </Pressable>
                 </View>
             </View>
 
@@ -389,7 +400,8 @@ const styles = StyleSheet.create({
     },
     PrivacySectionText: {
         fontWeight: '500',
-        fontSize: 15
+        fontSize: 15,
+        bottom: 10
     },
     PrivacyArrowText: {
         color: 'white',
@@ -403,7 +415,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 50,
         flexDirection: 'row',
-        backgroundColor: '#FF683A'
+        backgroundColor: '#FF683A',
+        bottom: 10
     },
 
     // Privacy Section End
@@ -417,15 +430,15 @@ const styles = StyleSheet.create({
         marginTop: 30,
         marginBottom: 30
     },
-    myAccountText:{
+    myAccountText: {
         marginBottom: 20,
     },
-    myAccountSwitchText:{
+    myAccountSwitchText: {
         marginBottom: 20,
         color: '#3E5FAF',
         fontWeight: '500'
     },
-     myAccountLogOutText:{
+    myAccountLogOutText: {
         marginBottom: 20,
         color: '#FB6D64',
         fontWeight: '500'
