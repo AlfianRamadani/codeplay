@@ -3,6 +3,7 @@ import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
 import Groq from 'groq-sdk';
 import React, { useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Alert, Dimensions, Image, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { app, auth } from '../../firebaseConfig';
 import MaterialDisplay from '../components/MaterialDisplay';
@@ -27,7 +28,6 @@ const ProgressBar = ({ current, total }) => {
 export default function QuizScreen() {
     const router = useRouter();
     const { quizPlayQuestions, isHaveMaterial: isHaveMaterialParam = "true", stageId = null, expDailyChallenge = 0 } = useLocalSearchParams();
-
     const [questions, setQuestions] = useState([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [material, setMaterial] = useState(null);
@@ -54,6 +54,7 @@ export default function QuizScreen() {
         }
 
         const groq = new Groq({ apiKey: groqApiKey, dangerouslyAllowBrowser: true });
+
 
         setIsLoadingMaterial(true);
         setMaterialError(null);
@@ -149,6 +150,7 @@ Ketentuan:
             return;
         }
 
+
         if (isMaterialFeatureEnabled && parsedQuestions.length > 0) {
             fetchMaterialForQuestion(parsedQuestions);
         } else {
@@ -158,7 +160,7 @@ Ketentuan:
 
 
     useEffect(() => {
-        // Reset state ketika soal berganti
+
         setSelectedAnswer(null);
         setIsAnswered(false);
         setIsCorrect(null);
@@ -173,7 +175,6 @@ Ketentuan:
         }
         return null; // currentQuestion akan null jika tidak ada soal / index di luar batas
     }, [questions, currentQuestionIndex]);
-
 
     const handleAnswerSelect = (answer) => {
         if (isAnswered) return;
@@ -208,6 +209,7 @@ Ketentuan:
                 }
             } else {
                 correct = userCode.trim() === questionData.correctAnswer?.trim();
+
             }
         }
         setIsCorrect(correct);
@@ -249,6 +251,7 @@ Ketentuan:
                 `Skor Kamu: ${score}/${totalPoints}\n${score > (totalPoints / 2) ? "Kerja Bagus! 👍" : "Terus Belajar ya! Semangat! 💪"}`,
                 [{ text: "Selesai", onPress: () => router.replace('/(tabs)/Learn') }]
             );
+
         }
     };
 

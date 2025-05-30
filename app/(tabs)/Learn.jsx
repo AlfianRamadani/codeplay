@@ -100,7 +100,6 @@ const Learn = () => {
                                     {fill => <Text style={styles.progressPercent}>{`${Math.round(fill)}%`}</Text>}
                                 </AnimatedCircularProgress>
                             </View>
-
                             <View style={{ paddingVertical: 20 }}>
                                 {chapter.stages.map((stage, stageIndex) => (
                                     <View key={stageIndex}>
@@ -179,7 +178,7 @@ export default Learn;
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 60,
+        marginTop: 60,   
         paddingHorizontal: 20,
     },
     header: {
