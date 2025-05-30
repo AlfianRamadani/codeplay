@@ -95,6 +95,8 @@ export default function Leaderboard() {
         },
     ];
 
+    // Header akan fixed, tidak perlu transform
+
     const getArrowIcon = (rank) => {
         return rank % 2 === 0 ? '▼' : '▲';
     };
@@ -206,53 +208,68 @@ export default function Leaderboard() {
     };
 
     return (
-        <ScrollView style={styles.container}>
-            {/* Header Section */}
-            <View style={styles.containerHeader}>
+        <View style={styles.container}>
+            {/* Header Section - Fixed position */}
+            <View 
+                style={[
+                    styles.containerHeader,
+                    {
+                        zIndex: 1000,
+                    }
+                ]}
+            >
                 <View style={styles.header}>
                     <Text style={styles.title}>Leaderboard</Text>
                 </View>
             </View>
             {/* Header Section End */}
 
-            {/* Tabs Section */}
-            <View style={styles.tabContainer}>
-                <Pressable
-                    style={[
-                        styles.tabButton,
-                        activeTab === 'umum' && styles.activeTabButton
-                    ]}
-                    onPress={() => setActiveTab('umum')}
-                >
-                    <Text style={[
-                        styles.tabText,
-                        activeTab === 'umum' && styles.activeTabText
-                    ]}>
-                        Umum
-                    </Text>
-                </Pressable>
+            <ScrollView 
+                style={styles.scrollContainer}
+                showsVerticalScrollIndicator={false}
+            >
+                {/* Spacer untuk memberikan ruang untuk header */}
+                <View style={styles.headerSpacer} />
 
-                <Pressable
-                    style={[
-                        styles.tabButton,
-                        activeTab === 'sekolah' && styles.activeTabButton
-                    ]}
-                    onPress={() => setActiveTab('sekolah')}
-                >
-                    <Text style={[
-                        styles.tabText,
-                        activeTab === 'sekolah' && styles.activeTabText
-                    ]}>
-                        Sekolah
-                    </Text>
-                </Pressable>
-            </View>
-            {/* Tab Section End */}
+                {/* Tabs Section */}
+                <View style={styles.tabContainer}>
+                    <Pressable
+                        style={[
+                            styles.tabButton,
+                            activeTab === 'umum' && styles.activeTabButton
+                        ]}
+                        onPress={() => setActiveTab('umum')}
+                    >
+                        <Text style={[
+                            styles.tabText,
+                            activeTab === 'umum' && styles.activeTabText
+                        ]}>
+                            Umum
+                        </Text>
+                    </Pressable>
 
-            {/* Tab Content */}
-            {renderTabContent()}
-            {/* Tab Content End */}
-        </ScrollView>
+                    <Pressable
+                        style={[
+                            styles.tabButton,
+                            activeTab === 'sekolah' && styles.activeTabButton
+                        ]}
+                        onPress={() => setActiveTab('sekolah')}
+                    >
+                        <Text style={[
+                            styles.tabText,
+                            activeTab === 'sekolah' && styles.activeTabText
+                        ]}>
+                            Sekolah
+                        </Text>
+                    </Pressable>
+                </View>
+                {/* Tab Section End */}
+
+                {/* Tab Content */}
+                {renderTabContent()}
+                {/* Tab Content End */}
+            </ScrollView>
+        </View>
     )
 }
 
@@ -262,8 +279,15 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#f5f5f5',
     },
+    scrollContainer: {
+        flex: 1,
+    },
     containerHeader: {
-        marginTop: 60,
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        paddingTop: 50,        
+        backgroundColor: '#f5f5f5',
     },
     header: {
         flexDirection: 'row',
@@ -271,6 +295,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingHorizontal: 16,
         paddingVertical: 12,
+    },
+    headerSpacer: {
+        height: 120, // Berikan ruang untuk header
     },
     iconButton: {
         width: 40,
@@ -321,8 +348,6 @@ const styles = StyleSheet.create({
         color: '#fff',
     },
     // Tab Section End
-
-    // Content Section
 
     // Umum Section
     containerUmum: {
