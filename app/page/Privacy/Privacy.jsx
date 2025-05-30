@@ -138,12 +138,12 @@ export default function Privacy() {
             </View>
 
             {/* Konten yang bisa di-scroll */}
-            <ScrollView 
+            <ScrollView
                 style={styles.scrollView}
                 contentContainerStyle={styles.scrollContent}
             >
                 <View style={styles.contentContainer}>
-                    <Image style={styles.backgroundImage} source={require('@/assets/images/PrivacyBackgroundImage.png')} />
+                    <Image style={styles.backgroundImage} source={require('../../../assets/images/PrivacyBackgroundImage.png')} />
 
                     {/* profile picture section */}
                     <View style={styles.avatarContainer}>

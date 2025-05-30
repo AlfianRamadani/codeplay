@@ -1,6 +1,5 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
-import { useEffect } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
 import {
     Dimensions,
     Image,
@@ -13,6 +12,7 @@ import {
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { auth } from '../../firebaseConfig';
 import { colors, startText } from '../utils/Constant';
 
 if (typeof global.setImmediate === 'undefined') {
@@ -24,21 +24,11 @@ const { width, height } = Dimensions.get('window');
 const Start = () => {
     const router = useRouter();
 
-    useEffect(() => {
-        const checkUserData = async () => {
-            try {
-                const userData = await AsyncStorage.getItem('userData');
-
-                if (userData) {
-                    router.replace('/(tabs)/Learn');
-                }
-            } catch (error) {
-                console.error('Error checking user data:', error);
-            }
-        };
-
-        checkUserData();
-    }, [router]);
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            router.replace('/(tabs)/Learn');
+        }
+    });
 
     return (
         <SafeAreaView style={styles.safeArea}>

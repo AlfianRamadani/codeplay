@@ -1,9 +1,43 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { useEffect, useState } from 'react';
+import { Alert, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { auth } from '../../firebaseConfig';
 
 export default function Profile() {
     const router = useRouter();
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    // useEffect untuk memantau perubahan status autentikasi
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            if (!currentUser) {
+                // Jika tidak ada user yang terautentikasi, arahkan ke halaman Start
+                router.replace('../page/Start');
+                return;
+            }
+            // Jika ada user yang terautentikasi, set user state
+            setUser(currentUser);
+            setLoading(false);
+        });
+
+        // Membersihkan listener saat komponen di-unmount
+        return () => unsubscribe();
+    }, [router]);
+
+    const handleLogout = async () => {
+        try {
+            await signOut(auth); // Memanggil fungsi signOut dari Firebase Auth
+            Alert.alert("Logout Berhasil", "Anda telah berhasil keluar dari akun.");
+            // Setelah logout, onAuthStateChanged akan mendeteksi perubahan dan user akan menjadi null
+        } catch (error) {
+            console.error("Error saat logout:", error);
+            Alert.alert("Error Logout", "Gagal keluar dari akun. Silakan coba lagi.");
+        }
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             {/* Fixed Header */}
@@ -27,7 +61,7 @@ export default function Profile() {
                                 styles.editButton,
                                 pressed && styles.pressedEdit
                             ]}
-                             onPress={() => {
+                            onPress={() => {
                                 router.push('../page/Privacy/Privacy');
                             }}
                         >
@@ -45,8 +79,8 @@ export default function Profile() {
                             </View>
 
                             <View style={styles.profileInfo}>
-                                <Text style={styles.name}>John Doe</Text>
-                                <Text style={styles.status}>Newbie</Text>
+                                <Text style={styles.name}>{loading ? 'loading...' : user.providerData[0].displayName ?? user.providerData[0].email}</Text>
+                                <Text style={styles.status}>{loading ? 'loading...' : user.providerData[0].displayName ? user.providerData[0].email : 'Unkown User'}</Text>
                             </View>
                         </View>
                     </View>
@@ -125,9 +159,7 @@ export default function Profile() {
                                 styles.logoutButton,
                                 pressed && styles.pressed
                             ]}
-                            onPress={() => {
-                                router.push('../page/Start');
-                            }}
+                            onPress={() => handleLogout()}
                         >
                             <Text style={styles.myAccountLogOutText}>Logout Account</Text>
                         </Pressable>

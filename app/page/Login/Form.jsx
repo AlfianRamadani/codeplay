@@ -1,6 +1,4 @@
 import { Ionicons } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useRouter } from 'expo-router';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'; // Import signInWithEmailAndPassword
 import { useState } from 'react';
 import { Alert, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
@@ -14,8 +12,6 @@ const FormSection = () => {
     const [isRegistering, setIsRegistering] = useState(false);
     const [isLoading, setIsLoading] = useState(false); // Tambahkan state untuk loading
 
-    const router = useRouter();
-    // Fungsi validasi email
     const validateEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
@@ -40,6 +36,7 @@ const FormSection = () => {
         }
 
         setErrors(newErrors);
+        setIsLoading(false); // Reset loading state setelah validasi
         return Object.keys(newErrors).length === 0;
     };
 
@@ -62,23 +59,12 @@ const FormSection = () => {
                 setIsLoading(false); // Reset loading state
             } else {
                 // Logika Login (Sign In)
-                const response = await signInWithEmailAndPassword(auth, email, password);
-                console.log("Login berhasil:", JSON.stringify(response.user, null, 2));
-
+                await signInWithEmailAndPassword(auth, email, password);
                 // Store user data in AsyncStorage
-                const userData = {
-                    uid: response.user.uid,
-                    email: response.user.email,
-                    emailVerified: response.user.emailVerified,
-                    accessToken: await response.user.getIdToken()
-                };
-
-                await AsyncStorage.setItem('userData', JSON.stringify(userData));
                 Alert.alert("Sukses", "Login berhasil!");
                 // Di sini Anda bisa menavigasi pengguna ke layar utama aplikasi setelah login berhasil
                 // Contoh: navigate('/home'); // Ganti '/home' dengan rute aplikasi utama Anda
                 setIsLoading(false); // Reset loading state
-                router.replace('/(tabs)/Learn'); // Navigasi ke halaman utama setelah login berhasil
             }
         } catch (error) {
             // Tangani error dari Firebase Authentication
