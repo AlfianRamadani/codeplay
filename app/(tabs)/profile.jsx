@@ -27,6 +27,9 @@ export default function Profile() {
                                 styles.editButton,
                                 pressed && styles.pressedEdit
                             ]}
+                             onPress={() => {
+                                router.push('../page/Privacy/Privacy');
+                            }}
                         >
                             <Ionicons name="create-outline" size={24} color="#333" />
                         </Pressable>
