@@ -2,7 +2,7 @@
 import { useRouter } from 'expo-router';
 import { Dimensions, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import CustomText from '../../components/CustomText';
-import color from '../../utils/Constant';
+import { colors } from '../../utils/Constant';
 
 const { width, height } = Dimensions.get('window');
 
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     width: width * 1.7,
     height: width * 1.7,
     borderRadius: width * 0.8,
-    backgroundColor: color.BACKGROUD_PRIMARY,
+    backgroundColor: colors.BACKGROUD_PRIMARY,
     zIndex: 1,
   },
   image: {
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: width * 0.09,
-    color: color.BLACK,
+    color: colors.BLACK,
     fontWeight: '400',
   },
   bold: {
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: width * 0.035,
-    color: color.MUTED,
+    color: colors.MUTED,
     marginTop: height * 0.025,
     marginBottom: height * 0.025,
   },
@@ -102,17 +102,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: width * 0.05,
   },
   backButtonText: {
-    color: color.PRIMARY,
+    color: colors.PRIMARY,
     fontSize: width * 0.04,
   },
   registerButton: {
-    backgroundColor: color.PRIMARY,
+    backgroundColor: colors.PRIMARY,
     paddingVertical: height * 0.015,
     paddingHorizontal: width * 0.08,
     borderRadius: width * 0.07,
   },
   registerButtonText: {
-    color: color.WHITE,
+    color: colors.WHITE,
     fontSize: width * 0.04,
   },
 });

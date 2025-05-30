@@ -1,12 +1,14 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
-import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import color from '../utils/Constant';
+import { colors } from '../utils/Constant';
+
 const TabBarItem = ({ iconName, IconComponent = Ionicons, size = 26, color, focused, label }) => (
   <View style={styles.tabItemContainer}>
     <IconComponent name={iconName} size={size} color={color} />
-    <Text style={[styles.tabLabel, { color: color }]}>{label}</Text>
+    <Text style={[styles.tabLabel, { color }]} numberOfLines={2}>
+      {label}
+    </Text>
   </View>
 );
 
@@ -16,8 +18,8 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: color.ACTIVE_TABS,
-        tabBarInactiveTintColor: color.INACTIVE_TABS,
+        tabBarActiveTintColor: colors.ACTIVE_TABS,
+        tabBarInactiveTintColor: colors.INACTIVE_TABS,
         tabBarStyle: styles.tabBar,
         headerShown: false,
         tabBarShowLabel: false,
@@ -37,27 +39,27 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="DailyChallenge" 
+        name="DailyChallenge"
         options={{
           tabBarIcon: ({ color, focused }) => (
             <TabBarItem
-              iconName={focused ? "flame" : "flame-outline"} 
+              iconName={focused ? "flame" : "flame-outline"}
               color={color}
               focused={focused}
-              label="Challenge" 
+              label="Challenge"
             />
           ),
         }}
       />
       <Tabs.Screen
-        name="Leaderboard" 
+        name="Leaderboard"
         options={{
           tabBarIcon: ({ color, focused }) => (
             <TabBarItem
-              iconName={focused ? "stats-chart" : "stats-chart-outline"} 
+              iconName={focused ? "stats-chart" : "stats-chart-outline"}
               color={color}
               focused={focused}
-              label="Leaderboard" 
+              label="Leaderboard"
             />
           ),
         }}
@@ -95,7 +97,7 @@ export default function TabLayout() {
 
 const styles = StyleSheet.create({
   tabBar: {
-    height: 65,
+    height: 70,
     paddingTop: 5,
     paddingBottom: 5,
     borderTopWidth: 0.5,
@@ -103,22 +105,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   tabItemContainer: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 4,
+    width: 80, // Give enough width for longer labels
   },
   tabLabel: {
     fontSize: 10,
     fontWeight: '500',
     marginTop: 2,
-  },
-  indicator: {
-    position: 'absolute',
-    bottom: 6,
-    height: 3.5,
-    width: 40,
-    backgroundColor: '#000000',
-    borderRadius: 2,
+    textAlign: 'center',
+    flexWrap: 'wrap',
   },
 });

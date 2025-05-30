@@ -42,7 +42,6 @@ const Start = () => {
                 </View>
 
                 <View style={styles.bottomSection}>
-                    <View style={styles.handleBar} />
 
                     {/* Area untuk Swiper */}
                     <View style={styles.swiperContainer}>
@@ -134,12 +133,11 @@ const styles = StyleSheet.create({
         backgroundColor: colors.PRIMARY,
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
-        paddingHorizontal: 30,
-        paddingTop: 20,
-        height: height * 0.55, // Sedikit ditambah untuk mengakomodasi Swiper dan tombol
+        height: height * 0.50, // Sedikit ditambah untuk mengakomodasi Swiper dan tombol
         alignItems: 'center',
-        justifyContent: 'space-between', // Mengatur ruang antar elemen di bottomSection
-        paddingBottom: 20, // Menambahkan padding di bawah
+        paddingTop: 20, // Sedikit disesuaikan
+        justifyContent: 'start', // Mengatur ruang antar elemen di bottomSection
+        gap: 50, // Mengatur jarak antar elemen di bottomSection
     },
     handleBar: {
         width: 50,
@@ -163,13 +161,14 @@ const styles = StyleSheet.create({
         color: colors.WHITE,
         textAlign: 'center',
         marginBottom: 8,
+        paddingHorizontal: 15, // agar tidak terlalu lebar
     },
     swiperSubtitle: {
         fontSize: 15, // Disesuaikan
         color: colors.WHITE_OPACITY_70 || '#FFFFFFB3', // Warna putih dengan sedikit transparansi
         textAlign: 'center',
         lineHeight: 22,
-        paddingHorizontal: 10, // agar tidak terlalu lebar
+        paddingHorizontal: 15, // agar tidak terlalu lebar
         // marginBottom diatur oleh SwiperItem atau style internalnya
     },
     // Style untuk pagination yang akan di-pass ke SwiperItem
@@ -198,6 +197,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         width: '100%',
+        paddingHorizontal: 30, // Sedikit disesuaikan
         // marginTop: 20, // Dihapus, biarkan justifyContent yang mengatur
     },
     button: {
