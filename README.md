@@ -1,6 +1,6 @@
 # CodePlay: Belajar Coding Seru untuk Generasi Emas Indonesia! 🇮🇩
 
-![CodePlay UI Mockup](../codeplay/assets/images/codeplay-mockups.png)
+![CodePlay UI Mockup](./assets/images/codeplay-mockups.png)
 
 **Sebuah Proyek oleh Tim HackToWin untuk Infinite Hackathon 2025**
 
