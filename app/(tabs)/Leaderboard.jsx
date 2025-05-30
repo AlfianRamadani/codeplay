@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { Text, ScrollView, StyleSheet, View, Pressable, Image, FlatList } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { useState } from 'react';
+import { FlatList, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function Leaderboard() {
     const [activeTab, setActiveTab] = useState('umum');
@@ -42,7 +41,7 @@ export default function Leaderboard() {
             points: 854,
             avatar: 'https://via.placeholder.com/40x40/6C5CE7/ffffff?text=D',
         },
-         {
+        {
             id: 9,
             rank: 150,
             name: 'David',
@@ -87,7 +86,7 @@ export default function Leaderboard() {
             points: 854,
             avatar: 'https://via.placeholder.com/40x40/6C5CE7/ffffff?text=D',
         },
-         {
+        {
             id: 9,
             rank: 150,
             name: 'SDN 032 Samarinda',
@@ -211,25 +210,7 @@ export default function Leaderboard() {
             {/* Header Section */}
             <View style={styles.containerHeader}>
                 <View style={styles.header}>
-                    <Pressable
-                        style={({ pressed }) => [
-                            styles.iconButton,
-                            pressed && styles.pressed
-                        ]}
-                    >
-                        <Ionicons name="chevron-back" size={24} color="#333" />
-                    </Pressable>
-
                     <Text style={styles.title}>Leaderboard</Text>
-
-                    <Pressable
-                        style={({ pressed }) => [
-                            styles.iconButton,
-                            pressed && styles.pressed
-                        ]}
-                    >
-                        <Ionicons name="share-social" size={24} color="#333" />
-                    </Pressable>
                 </View>
             </View>
             {/* Header Section End */}
@@ -287,7 +268,7 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         paddingHorizontal: 16,
         paddingVertical: 12,
     },
@@ -303,7 +284,7 @@ const styles = StyleSheet.create({
         transform: [{ scale: 0.95 }],
     },
     title: {
-        fontSize: 18,
+        fontSize: 24,
         fontWeight: '600',
         textAlign: 'center',
     },

@@ -91,19 +91,18 @@ const Start = () => {
 
 const styles = StyleSheet.create({
     safeArea: {
-        flex: 1,
         backgroundColor: colors.SOFT_WHITE,
     },
     container: {
-        flex: 1, // Membuat container mengisi seluruh safeArea
+        flexDirection: 'column',
+        justifyContent: 'space-between', // Mengatur ruang antar elemen di container
         backgroundColor: colors.SOFT_WHITE,
     },
     topSection: {
         justifyContent: 'center',
         alignItems: 'center',
-        height: height * 0.45,
+        height: height * 0.5, // Sedikit disesuaikan
         backgroundColor: colors.SOFT_WHITE,
-        paddingTop: StatusBar.currentHeight || 0,
     },
     logo: {
         width: width * 0.3, // Sedikit disesuaikan
@@ -133,11 +132,10 @@ const styles = StyleSheet.create({
         backgroundColor: colors.PRIMARY,
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
-        height: height * 0.50, // Sedikit ditambah untuk mengakomodasi Swiper dan tombol
         alignItems: 'center',
-        paddingTop: 20, // Sedikit disesuaikan
         justifyContent: 'start', // Mengatur ruang antar elemen di bottomSection
         gap: 50, // Mengatur jarak antar elemen di bottomSection
+        height: height * 0.5, // Mengatur tinggi bottomSection
     },
     handleBar: {
         width: 50,
