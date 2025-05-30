@@ -11,14 +11,14 @@ export default function Profile() {
                 <View style={styles.header}>
 
                     <Text style={styles.title}>My Profile</Text>
-                    
+
                 </View>
             </View>
 
             {/* Scrollable Content */}
             <ScrollView style={styles.scrollContent} contentContainerStyle={styles.scrollContainer}>
-                <Image source={require('@/assets/images/profile-tab-background.png')} style={styles.backgroundImage} />
-                
+                <Image source={require('../../assets/images/profile-tab-background.png')} style={styles.backgroundImage} />
+
                 {/* Profile Section */}
                 <View style={styles.profileContainer}>
                     <View style={styles.profileCard}>

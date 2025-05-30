@@ -1,5 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
-import React from 'react';
+import { useEffect } from 'react';
 import {
     Dimensions,
     Image,
@@ -22,6 +23,23 @@ const { width, height } = Dimensions.get('window');
 
 const Start = () => {
     const router = useRouter();
+
+    useEffect(() => {
+        const checkUserData = async () => {
+            try {
+                const userData = await AsyncStorage.getItem('userData');
+
+                if (userData) {
+                    router.replace('/(tabs)/Learn');
+                }
+            } catch (error) {
+                console.error('Error checking user data:', error);
+            }
+        };
+
+        checkUserData();
+    }, [router]);
+
     return (
         <SafeAreaView style={styles.safeArea}>
             <StatusBar barStyle="dark-content" backgroundColor={colors.SOFT_WHITE} />
@@ -77,7 +95,7 @@ const Start = () => {
                         <TouchableOpacity
                             style={[styles.button, styles.loginButton]}
                             onPress={() => {
-                                router.push('/(tabs)/Learn');
+                                router.push('/page/Login/Index');
                             }}>
                             <Text style={styles.loginButtonText}>Masuk</Text>
                             <Icon name="arrow-forward" size={18} color={colors.WHITE} />
