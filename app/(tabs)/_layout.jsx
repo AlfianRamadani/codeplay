@@ -1,20 +1,18 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet, Text } from 'react-native';
 import { colors } from '../utils/Constant';
 
 const TabBarItem = ({ iconName, IconComponent = Ionicons, size = 26, color, focused, label }) => (
-  <View style={styles.tabItemContainer}>
+  <SafeAreaView style={styles.tabItemContainer}>
     <IconComponent name={iconName} size={size} color={color} />
     <Text style={[styles.tabLabel, { color }]} numberOfLines={2}>
       {label}
     </Text>
-  </View>
+  </SafeAreaView >
 );
 
 export default function TabLayout() {
-
-
   return (
     <Tabs
       screenOptions={{
@@ -33,7 +31,7 @@ export default function TabLayout() {
               iconName={focused ? "book" : "book-outline"}
               color={color}
               focused={focused}
-              label="Learn"
+              label="Belajar"
             />
           ),
         }}
@@ -46,7 +44,7 @@ export default function TabLayout() {
               iconName={focused ? "flame" : "flame-outline"}
               color={color}
               focused={focused}
-              label="Challenge"
+              label="Tantangan"
             />
           ),
         }}
@@ -59,7 +57,7 @@ export default function TabLayout() {
               iconName={focused ? "stats-chart" : "stats-chart-outline"}
               color={color}
               focused={focused}
-              label="Leaderboard"
+              label="Peringkat"
             />
           ),
         }}
@@ -72,7 +70,7 @@ export default function TabLayout() {
               iconName={focused ? "trophy" : "trophy-outline"}
               color={color}
               focused={focused}
-              label="Achievement"
+              label="Pencapaian"
             />
           ),
         }}

@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
@@ -6,6 +7,7 @@ import { materials } from '../data/quizData';
 import { colors } from '../utils/Constant';
 
 const Learn = () => {
+    const router = useRouter();
     const [showDropdown, setShowDropdown] = useState(false);
     const [selectedMaterial, setSelectedMaterial] = useState(0);
 
@@ -71,7 +73,7 @@ const Learn = () => {
                             <AnimatedCircularProgress
                                 size={50}
                                 width={5}
-                                fill={Math.random() > 0.3 ? 100 : Math.random() * 100}
+                                fill={0}
                                 tintColor={colors.BLACK}
                                 backgroundColor="#ddd"
                                 rotation={0}
@@ -81,16 +83,14 @@ const Learn = () => {
                             </AnimatedCircularProgress>
                         </View>
 
-                        {/* Rest of your chapter rendering code */}
                         <View style={{ paddingVertical: 20 }}>
-                            {/* Your existing stage rendering code */}
                             {chapter.stages.map((stage, stageIndex) => (
                                 <View key={stageIndex}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                         <AnimatedCircularProgress
                                             size={46}
                                             width={5}
-                                            fill={Math.random() > 0.4 ? 100 : Math.random() * 80}
+                                            // fill={Math.random() > 0.4 ? 100 : Math.random() * 80}
                                             tintColor={colors.PRIMARY}
                                             backgroundColor="#ddd"
                                             rotation={0}
@@ -105,6 +105,15 @@ const Learn = () => {
                                             }
                                         </AnimatedCircularProgress>
                                         <Pressable
+                                            onPress={() => {
+                                                router.push({
+                                                    pathname: '/page/Question',
+                                                    params: {
+                                                        quizPlayQuestions: JSON.stringify(stage.questions),
+                                                        isHaveMaterial: true,
+                                                    }
+                                                });
+                                            }}
                                             style={({ pressed }) => [
                                                 {
                                                     flexDirection: 'row',
@@ -150,7 +159,7 @@ export default Learn;
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 60,
+        marginTop: 60,   
         paddingHorizontal: 20,
     },
     header: {
