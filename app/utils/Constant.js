@@ -5,7 +5,7 @@ export const colors = {
   SOFT_WHITE: '#F0F0F0',
   PRIMARY: '#0693F1',
   BACKGROUD_PRIMARY: '#3EB5FF',
-  ACTIVE_TABS: '#007AFF',
+  ACTIVE_TABS: '#0693F1',
   INACTIVE_TABS: '#8E8E93',
   GRAY: 'rgba(255, 255, 255, 0.5)'
 };

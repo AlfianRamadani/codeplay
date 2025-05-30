@@ -2,6 +2,7 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { colors } from '../utils/Constant';
 
 const achievements = [
     {
@@ -87,7 +88,7 @@ export default Achievement;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: colors.SOFT_WHITE,
         padding: 20,
         paddingTop: 60,
     },
