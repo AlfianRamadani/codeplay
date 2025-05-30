@@ -10,25 +10,9 @@ export default function Profile() {
             <View style={styles.container}>
 
                 <View style={styles.header}>
-                    <Pressable
-                        style={({ pressed }) => [
-                            styles.iconButton,
-                            pressed && styles.pressed
-                        ]}
-                    >
-                        <Ionicons name="chevron-back" size={24} color="#333" />
-                    </Pressable>
 
                     <Text style={styles.title}>My Profile</Text>
 
-                    <Pressable
-                        style={({ pressed }) => [
-                            styles.iconButton,
-                            pressed && styles.pressed
-                        ]}
-                    >
-                        <Ionicons name="menu" size={24} color="#333" />
-                    </Pressable>
                 </View>
             </View>
 
@@ -182,7 +166,7 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         paddingHorizontal: 16,
         paddingVertical: 12,
     },
@@ -207,7 +191,7 @@ const styles = StyleSheet.create({
         transform: [{ scale: 0.95 }],
     },
     title: {
-        fontSize: 18,
+        fontSize: 24,
         fontWeight: '600',
         color: 'white',
         textAlign: 'center',
