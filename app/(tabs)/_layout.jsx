@@ -2,13 +2,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import {colors} from '../utils/Constant';
-
-
+import color from '../utils/Constant';
 const TabBarItem = ({ iconName, IconComponent = Ionicons, size = 26, color, focused, label }) => (
   <View style={styles.tabItemContainer}>
-    <IconComponent name={iconName} size={size} color={colors} />
-    <Text style={[styles.tabLabel, { color: colors }]}>{label}</Text>
+    <IconComponent name={iconName} size={size} color={color} />
+    <Text style={[styles.tabLabel, { color: color }]}>{label}</Text>
   </View>
 );
 
@@ -18,8 +16,8 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: colors.ACTIVE_TABS,
-        tabBarInactiveTintColor: colors.INACTIVE_TABS,
+        tabBarActiveTintColor: color.ACTIVE_TABS,
+        tabBarInactiveTintColor: color.INACTIVE_TABS,
         tabBarStyle: styles.tabBar,
         headerShown: false,
         tabBarShowLabel: false,
@@ -65,7 +63,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="Profile"
+        name="profile/index"
         options={{
           tabBarIcon: ({ color, focused }) => (
             <TabBarItem
