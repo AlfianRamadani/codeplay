@@ -1,9 +1,9 @@
-import { GoogleGenAI } from '@google/genai';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import Groq from 'groq-sdk';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Dimensions, Image, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialDisplay from '../components/MaterialDisplay';
-import quizPlayQuestions from '../data/quizData';
 
 
 const screenWidth = Dimensions.get('window').width;
@@ -17,6 +17,7 @@ const ProgressBar = ({ current, total }) => {
     );
 };
 export default function QuizScreen() {
+    const router = useRouter();
     const [questions, setQuestions] = useState([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [material, setMaterial] = useState(null);
@@ -29,10 +30,10 @@ export default function QuizScreen() {
     const [isAnswered, setIsAnswered] = useState(false);
     const [isCorrect, setIsCorrect] = useState(null);
     const [score, setScore] = useState(0);
-
+    const { quizPlayQuestions, isHaveMaterial = true } = useLocalSearchParams();
 
     const fetchMaterialForQuestion = async () => {
-        const ai = new GoogleGenAI({ apiKey: "AIzaSyC-wUn5N-gKpeX2FK2nr05bJDXh0C7Su6w" });
+        const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
         setIsLoadingMaterial(true);
         setMaterialError(null);
         setShowMaterial(true);
@@ -40,7 +41,6 @@ export default function QuizScreen() {
         try {
             const prompt = `
             Kamu adalah AI tutor CodePlay yang ahli menjelaskan konsep coding untuk anak-anak Indonesia usia 8-12 tahun.
-            
             Berikut adalah daftar soal yang diberikan kepada anak:
             ${JSON.stringify(quizPlayQuestions, null, 2)}
             
@@ -62,9 +62,14 @@ export default function QuizScreen() {
             }
             Kamu tidak harus selalu menggunakan semua jenis contentBlocks, tapi jumlahnya cukup antara 3 hingga 5 blok. Fokus pada penjelasan inti dari konsep-konsep yang muncul di soal-soal. JSON harus valid dan bisa langsung digunakan dalam React Native komponen MaterialDisplay.
             `;
-            const result = await ai.models.generateContent({
-                model: "gemini-2.0-flash",
-                contents: prompt,
+            const result = await groq.chat.completions.create({
+                messages: [
+                    {
+                        role: "user",
+                        content: prompt,
+                    },
+                ],
+                model: "llama-3.3-70b-versatile",
             });
 
             const cleaned = result.text
@@ -86,20 +91,25 @@ export default function QuizScreen() {
     useEffect(() => {
     })
     useEffect(() => {
+        if (!isHaveMaterial) {
+            setShowMaterial(false);
+            return;
+        }
         fetchMaterialForQuestion();
-        setQuestions(quizPlayQuestions);
+        setQuestions();
+        setQuestions(JSON.parse(quizPlayQuestions));
     }, []);
 
 
     console.log(material)
 
     useEffect(() => {
+        
         setSelectedAnswer(null);
         setIsAnswered(false);
         setIsCorrect(null);
         setUserCode(questions[currentQuestionIndex]?.initialCode || '');
     }, [currentQuestionIndex, questions]);
-
 
     const handleAnswerSelect = (answer) => {
         if (isAnswered) return;
@@ -114,11 +124,11 @@ export default function QuizScreen() {
         if (!question) return;
 
 
-        if (question.type === 'multiple-choice') {
+        if (question.questionType === 'multiple-choice') {
             correct = selectedAnswer === question.correctAnswer;
-        } else if (question.type === 'fill-in-the-blank' || question.type === 'guess-output') {
+        } else if (question.questionType === 'fill-in-the-blank' || question.type === 'guess-output') {
             correct = selectedAnswer && selectedAnswer.trim().toLowerCase() === question.correctAnswer.toLowerCase();
-        } else if (question.type === 'code-editor') {
+        } else if (question.questionType === 'code-editor') {
             if (question.validate) {
                 correct = question.validate(userCode);
             }
@@ -129,19 +139,19 @@ export default function QuizScreen() {
         }
         setIsAnswered(true);
     };
-    // console.log(showMaterial);
 
     const handleNextQuestion = () => {
         if (currentQuestionIndex < questions.length - 1) {
             setCurrentQuestionIndex(prevIndex => prevIndex + 1);
         } else {
             alert(`Kuis Selesai! Skor Anda: ${score}`);
+            router.push('/(tabs)/Learn');
         }
     };
     const renderAnswerArea = () => {
         if (!currentQuestion) return null;
 
-        switch (currentQuestion.type) {
+        switch (currentQuestion.questionType) {
             case 'multiple-choice':
                 return (
                     <View style={styles.optionsContainer}>

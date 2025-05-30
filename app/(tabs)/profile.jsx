@@ -1,11 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function Profile() {
     const router = useRouter();
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             {/* Fixed Header */}
             <View style={styles.containerHeader}>
                 <View style={styles.header}>
@@ -131,7 +131,7 @@ export default function Profile() {
                     </View>
                 </View>
             </ScrollView>
-        </View>
+        </SafeAreaView>
     )
 }
 

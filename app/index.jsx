@@ -1,8 +1,9 @@
 import * as React from 'react';
+import { SafeAreaView } from 'react-native';
 import Start from './page/Start';
 
 export const index = () => {
-  return <Start />;
+  return <SafeAreaView><Start /></SafeAreaView>;
 };
 
 export default index;
