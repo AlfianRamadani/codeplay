@@ -26,7 +26,7 @@ const ProgressBar = ({ current, total }) => {
 };
 
 export default function QuizScreen() {
-    const router = useRouter();
+    const router =  useRouter();
     const { quizPlayQuestions, isHaveMaterial: isHaveMaterialParam = "true", stageId = null, expDailyChallenge = 0 } = useLocalSearchParams();
     const [questions, setQuestions] = useState([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);

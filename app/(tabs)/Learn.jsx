@@ -12,7 +12,6 @@ const Learn = () => {
     const [selectedMaterial, setSelectedMaterial] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const [materials, setMaterials] = useState([]);
-    console.log(materials)
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);
     };

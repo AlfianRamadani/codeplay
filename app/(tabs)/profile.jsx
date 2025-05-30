@@ -1,11 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import { signOut } from 'firebase/auth';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { Alert, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { auth } from '../../firebaseConfig';
-import { Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function Profile() {
     const router = useRouter();
@@ -46,7 +46,8 @@ export default function Profile() {
         try {
             await signOut(auth); // Memanggil fungsi signOut dari Firebase Auth
             Alert.alert("Logout Berhasil", "Anda telah berhasil keluar dari akun.");
-            // Setelah logout, onAuthStateChanged akan mendeteksi perubahan dan user akan menjadi null
+            router.replace('/'); // Mengarahkan pengguna kembali ke halaman utama atau login
+            AsyncStorage.removeItem('@materials')
         } catch (error) {
             console.error("Error saat logout:", error);
             Alert.alert("Error Logout", "Gagal keluar dari akun. Silakan coba lagi.");
