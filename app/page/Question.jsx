@@ -1,7 +1,7 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
 import Groq from 'groq-sdk';
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator, Alert, Dimensions, Image, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -26,7 +26,7 @@ const ProgressBar = ({ current, total }) => {
 };
 
 export default function QuizScreen() {
-    const router =  useRouter();
+    const router = useRouter();
     const { quizPlayQuestions, isHaveMaterial: isHaveMaterialParam = "true", stageId = null, expDailyChallenge = 0 } = useLocalSearchParams();
     const [questions, setQuestions] = useState([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -121,9 +121,9 @@ Ketentuan:
 
             let responseContent = chatCompletion.choices[0]?.message?.content || "";
 
-
             const jsonOutput = extractValidResponse(responseContent);
             console.log(jsonOutput)
+            console.log("Materi JSON yang dihasilkan:", jsonOutput);
             console.log("Materi JSON yang diterima:", jsonOutput);
             setMaterial(JSON.parse(jsonOutput));
         } catch (e) {
@@ -469,6 +469,7 @@ const styles = StyleSheet.create({
     },
     scrollViewContainer: {
         padding: 20,
+        paddingTop: 40,
         flexGrow: 1,
     },
     headerNav: {

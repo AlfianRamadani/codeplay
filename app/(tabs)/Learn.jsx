@@ -177,7 +177,7 @@ export default Learn;
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 60,   
+        marginTop: 60,
         paddingHorizontal: 20,
     },
     header: {

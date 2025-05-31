@@ -1,7 +1,7 @@
 
 import { useRouter } from 'expo-router';
 import Groq from 'groq-sdk';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -155,8 +155,8 @@ Output yang Anda berikan HARUS berupa objek JSON tunggal yang valid dengan struk
                     pathname: '/page/Question',
                     params: {
                         quizPlayQuestions: JSON.stringify(parsedQuestionsData),
-                        isHaveMaterial: false, 
-                        expDailyChallenge: challenge.poin_reward_saran, 
+                        isHaveMaterial: false,
+                        expDailyChallenge: challenge.poin_reward_saran,
 
                     }
                 })
@@ -261,6 +261,7 @@ Output yang Anda berikan HARUS berupa objek JSON tunggal yang valid dengan struk
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
+        paddingTop: 40,
         backgroundColor: '#f0f4f7',
     },
     container: {

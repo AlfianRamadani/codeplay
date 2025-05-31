@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
-import { signOut } from 'firebase/auth';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { Alert, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -15,14 +15,21 @@ export default function Profile() {
 
     // useEffect untuk memantau perubahan status autentikasi
     useEffect(() => {
-        setUser(auth.currentUser);
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setUser(user);
+                setLoading(false);
+            } else {
+                router.replace('/'); // Mengarahkan pengguna ke halaman login jika tidak ada user yang terautentikasi
+            }
+        });
 
         // Fetch user experience points (exp) from Firebase Firestore
 
         const fetchUserExp = async () => {
             try {
                 const db = getFirestore();
-                const userDoc = doc(db, 'user_data', auth.currentUser.uid); // Assuming 'users' collection and user ID as document ID
+                const userDoc = doc(db, 'user_data', user.uid); // Assuming 'users' collection and user ID as document ID
                 const userSnapshot = await getDoc(userDoc);
 
                 if (userSnapshot.exists()) {
@@ -39,7 +46,7 @@ export default function Profile() {
         };
 
         fetchUserExp();
-    }, [router]);
+    }, [router, user]);
     console.log(exp);
 
     const handleLogout = async () => {
@@ -60,7 +67,7 @@ export default function Profile() {
             <View style={styles.containerHeader}>
                 <View style={styles.header}>
 
-                    <Text style={styles.title}>My Profile</Text>
+                    <Text style={styles.title}>Akun Saya</Text>
 
                 </View>
             </View>
@@ -112,9 +119,13 @@ export default function Profile() {
                         <View style={styles.separator} />
                         <View style={styles.statItem}>
                             <Text style={styles.statNumber}>20</Text>
-                            <Text style={styles.statLabel}>Achievements</Text>
+                            <Text style={styles.statLabel}>Pencapaian</Text>
                         </View>
                         <View style={styles.separator} />
+                        <View style={styles.statItem}>
+                            <Text style={styles.statNumber}>{exp}</Text>
+                            <Text style={styles.statLabel}>Pengalaman</Text>
+                        </View>
                     </View>
                 </View>
 
